@@ -87,15 +87,3 @@ class Ship1a2090(models.Model):
     weather = models.CharField(max_length=30)
     temp = models.FloatField()
     pres = models.FloatField()
-
-"""
-select a.datetime, c.wind_spd, c.weather, c.temp, c.pres
-from (select * from ship_messages_shipmessage where device_id = 'st-1a2090')a
-inner join ship_messages_weatherstation b
-  on acos(sin(a.lat)*sin(b.lat)+cos(a.lat)*cos(b.lat)*cos(b.lon - a.lon)) =
-  (select min(acos(sin(a.lat)*sin(lat)+cos(a.lat)*cos(lat)*cos(lon - a.lon))) from ship_messages_weatherstation)
-left join ship_messages_measurement c
-  on c.weather_station_id=b.id and abs(extract(epoch from c.timestamp_utc) - extract(epoch from a.datetime)) 
-  = (select min(abs(extract(epoch from timestamp_utc) - extract(epoch from a.datetime))) from ship_messages_measurement where weather_station_id = b.id)
-order by a.datetime;
-"""
